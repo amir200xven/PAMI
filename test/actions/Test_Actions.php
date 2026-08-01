@@ -45,7 +45,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 {
     private $_properties = array();
 
-    public function setUp()
+    protected function setUp(): void
     {
         global $mockTime;
         $this->_properties = array();

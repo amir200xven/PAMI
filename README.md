@@ -26,26 +26,35 @@ A port for erlang is available at: https://github.com/marcelog/erlami
  * [API](http://pami.readthedocs.org/en/latest/ApiIndex/)
  * [Complete PAGI/PAMI talk for the PHP Conference Argentina 2013](http://www.slideshare.net/mgornstein/phpconf-2013). Check the slide notes for the complete text :)
 
-# PHP Versions
+# PHP version
 
-## PHP 5
-Note: PAMI Requires PHP 5.3+. PHP versions 5.3.9 and 5.3.10 WILL NOT WORK due
-to a bug introduced in stream_get_line() in 5.3.9. Please use 5.3.11+ or up
-to 5.3.8 (see README.PHP-5.3.9-and-5.3.10).
-Also running on 5.4 and 5.5.
+This branch targets **PHP 8.4**. Composer prevents installation on an older
+runtime so that an unsupported PHP version cannot fail later in production.
+The runtime dependencies support all currently maintained PSR-3 generations,
+including `psr/log` 3.x.
 
-## PHP 7
-PHP Versions 7.0, 7.1, 7.2, 7.3 and 7.4 are also confirmed working with
-the latest version. 
+## توضیحات نسخهٔ PHP 8.4
 
-## PHP 8
-This version is also supported.
+این نسخه برای اجرای مستقیم روی **PHP 8.4** آماده شده است. محدودیت نسخهٔ PHP و
+وابستگی‌های Composer به‌روز شده‌اند، PHPUnit 11 برای تست‌ها در نظر گرفته شده و
+تنظیمات CI نیز روی PHP 8.4 اجرا می‌شود. در نتیجه دیگر نیازی به اسکریپت‌های موقت
+تبدیل تست‌های PHP 5/7 نیست.
+
+> این تغییرات مربوط به کلاینت PAMI است؛ برای تست یک اتصال واقعی همچنان باید
+> دسترسی شبکه و یک کاربر AMI معتبر در Asterisk داشته باشید.
 
 # Installing
 Add this library to your [Composer](https://packagist.org/) configuration. In
 composer.json:
 ```sh
 composer require marcelog/pami
+```
+
+For development and verification:
+
+```sh
+composer install
+composer test
 ```
 
 # QuickStart
@@ -90,7 +99,7 @@ $client->registerEventListener(
     array($listener, 'handleDialStart'),
     function ($event) {
         return $event instanceof DialEvent && $event->getSubEvent() == 'Begin';
-    })
+    }
 );
 ```
 
