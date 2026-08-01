@@ -57,7 +57,6 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
         $options = array(
@@ -72,7 +71,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $writeLogin = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $writeLogin);
+        setFgetsMock(standardAMIStart(), $writeLogin);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
 	    if ($action instanceof \PAMI\Message\Action\DBGetAction) {

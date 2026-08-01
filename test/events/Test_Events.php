@@ -1517,7 +1517,6 @@ class Test_Events extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $eventClass = "\\PAMI\\Message\\Event\\" . $eventName . 'Event';
         $mockTime = true;
         $mock_stream_socket_client = true;
@@ -1534,7 +1533,7 @@ class Test_Events extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
 	    $client->open();

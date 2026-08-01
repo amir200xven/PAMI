@@ -40,23 +40,6 @@ namespace {
     $mockFgets = false;
     $mockFgetsCount = 0;
     $mockFreadReturn = false;
-    $standardAMIStart = array(
-   		'Asterisk Call Manager/1.1',
-   		'Response: Success',
-   		'ActionID: 1432.123',
-   		'Message: Authentication accepted',
-        '',
-        'Response: Goodbye',
-        'ActionID: 1432.123',
-        'Message: Thanks for all the fish.',
-        ''
-    );
-    $standardAMIStartBadLogin = array(
-   		'Asterisk Call Manager/1.1',
-   		'Response: Error', // also tests behavior when asterisk does not return an actionid
-   		'Message: Authentication accepted',
-        ''
-    );
 }
 namespace PAMI\Message\Action {
     function microtime() {
@@ -275,7 +258,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -291,7 +273,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
 	    $client->open();
@@ -318,7 +300,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -334,7 +315,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $resultVariable = false;
         $client->registerEventListener(function ($event) use (&$resultVariable) {
@@ -363,7 +344,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -379,7 +359,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $resultVariable = false;
         $listener = new SomeListenerClass;
@@ -408,7 +388,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -424,7 +403,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         SomeListenerClass::$event = null;
         $id = $client->registerEventListener(new SomeListenerClass);
@@ -452,7 +431,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -468,7 +446,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $resultVariable = false;
         $client->registerEventListener(
@@ -501,7 +479,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -517,7 +494,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
 	    $client->close();
@@ -529,7 +506,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -545,7 +521,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	'fwrite error'
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
     }
@@ -557,7 +533,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStartBadLogin;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -573,7 +548,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStartBadLogin, $write);
+        setFgetsMock(standardAMIStartBadLogin(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
     }
@@ -584,7 +559,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -600,7 +574,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
         setFgetsMock(array(false), $write);
@@ -613,7 +587,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -629,7 +602,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
         setFgetsMock(array(10, 4), $write);
@@ -643,7 +616,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -659,7 +631,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
 	    $client->open();
@@ -700,7 +672,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -716,7 +687,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
 	    $client->open();
@@ -751,7 +722,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -767,7 +737,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
 	    $client->open();
@@ -837,7 +807,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -853,7 +822,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
 	    $client->open();
@@ -883,7 +852,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -899,7 +867,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
             "action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
         $client->open();
@@ -948,7 +916,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -964,7 +931,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
             "action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
         $client->open();
@@ -1018,7 +985,6 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mockTime = true;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
@@ -1034,7 +1000,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $write = array(
             "action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $write);
+        setFgetsMock(standardAMIStart(), $write);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
         $client->registerEventListener(new SomeListenerClass);
         $client->open();
