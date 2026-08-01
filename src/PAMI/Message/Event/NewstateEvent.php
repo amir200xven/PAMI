@@ -117,6 +117,36 @@ class NewstateEvent extends EventMessage
         return $this->getKey('UniqueID');
     }
 
+    /**
+     * Returns key: 'Context'.
+     *
+     * @return string
+     */
+    public function getContext(): string
+    {
+        return $this->getKey('Context');
+    }
+
+    /**
+     * Returns key: 'Linkedid'.
+     *
+     * @return string
+     */
+    public function getLinkedid(): string
+    {
+        return $this->getKey('Linkedid');
+    }
+
+    /**
+     * Returns key: 'Exten'.
+     *
+     * @return string
+     */
+    public function getExten(): string
+    {
+        return $this->getKey('Exten');
+    }
+
    /**
      * Returns key: 'ConnectedLineNum'. Asterisk >= 1.8.
      *

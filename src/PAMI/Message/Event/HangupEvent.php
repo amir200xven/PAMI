@@ -96,6 +96,26 @@ class HangupEvent extends EventMessage
     }
 
     /**
+     * Returns key: 'Context'.
+     *
+     * @return string
+     */
+    public function getContext(): string
+    {
+        return $this->getKey('Context');
+    }
+
+    /**
+     * Returns key: 'Linkedid'.
+     *
+     * @return string
+     */
+    public function getLinkedid(): string
+    {
+        return $this->getKey('Linkedid');
+    }
+
+    /**
      * Returns key: 'Cause'.
      *
      * @return string

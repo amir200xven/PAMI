@@ -48,6 +48,28 @@ class Test_Events extends \PHPUnit\Framework\TestCase
     {
         $this->_properties = array();
     }
+
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function newstate_exposes_standard_routing_headers(): void
+    {
+        $message = implode("\r\n", array(
+            'Event: Newstate',
+            'Context: from-internal',
+            'Exten: 123',
+            'Linkedid: 123456.1',
+            'Uniqueid: 123456.2',
+            'Channel: SIP/test-0001',
+            '',
+        ));
+
+        $event = \PAMI\Message\Event\Factory\Impl\EventFactoryImpl::createFromRaw($message);
+
+        $this->assertInstanceOf(\PAMI\Message\Event\NewstateEvent::class, $event);
+        $this->assertSame('from-internal', $event->getContext());
+        $this->assertSame('123', $event->getExten());
+        $this->assertSame('123456.1', $event->getLinkedid());
+    }
+
     #[\PHPUnit\Framework\Attributes\Test]
     public function can_report_events()
     {
@@ -324,6 +346,8 @@ class Test_Events extends \PHPUnit\Framework\TestCase
                 'CallerIdName' => 'CallerIdName',
                 'CallerIdNum' => 'CallerIdNum',
                 'Channel' => 'Channel',
+                'Context' => 'Context',
+                'Linkedid' => 'Linkedid',
                 'Privilege' => 'Privilege',
         		'UniqueID' => 'UniqueID',
                 'Cause' => 'Cause',
@@ -420,6 +444,9 @@ class Test_Events extends \PHPUnit\Framework\TestCase
         	'Newstate' => array(
                 'CallerIdName' => 'CallerIdName',
                 'CallerIdNum' => 'CallerIdNum',
+                'Context' => 'Context',
+                'Exten' => 'Exten',
+                'Linkedid' => 'Linkedid',
                 'UniqueID' => 'UniqueID',
                 'ChannelStateDesc' => 'ChannelStateDesc',
                 'ChannelState' => 'ChannelState',
