@@ -126,6 +126,16 @@ class NewchannelEvent extends EventMessage
     }
 
     /**
+     * Returns key: 'Linkedid'.
+     *
+     * @return string
+     */
+    public function getLinkedid(): string
+    {
+        return $this->getKey('Linkedid');
+    }
+
+    /**
      * Returns key: 'Context'.
      *
      * @return string

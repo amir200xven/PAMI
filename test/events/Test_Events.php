@@ -71,6 +71,23 @@ class Test_Events extends \PHPUnit\Framework\TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
+    public function newchannel_exposes_linkedid_header(): void
+    {
+        $message = implode("\r\n", array(
+            'Event: Newchannel',
+            'Linkedid: 123456.1',
+            'Uniqueid: 123456.2',
+            'Channel: SIP/test-0001',
+            '',
+        ));
+
+        $event = \PAMI\Message\Event\Factory\Impl\EventFactoryImpl::createFromRaw($message);
+
+        $this->assertInstanceOf(\PAMI\Message\Event\NewchannelEvent::class, $event);
+        $this->assertSame('123456.1', $event->getLinkedid());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_report_events()
     {
         $eventNames = array(
@@ -420,6 +437,7 @@ class Test_Events extends \PHPUnit\Framework\TestCase
             ),
             'Newchannel' => array(
         		'UniqueID' => 'UniqueID',
+                'Linkedid' => 'Linkedid',
                 'CallerIdName' => 'CallerIdName',
                 'CallerIdNum' => 'CallerIdNum',
                 'ChannelStateDesc' => 'ChannelStateDesc',
