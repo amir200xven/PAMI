@@ -29,6 +29,7 @@
   },
   "scripts": {
     "test": "phpunit -c test/resources/phpunit.xml",
+    "syntax": "@php scripts/check-syntax.php",
     "lint": "phpcs --standard=PSR12 src"
   },
   "config": {

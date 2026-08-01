@@ -18,4 +18,5 @@ jobs:
           coverage: none
       - uses: ramsey/composer-install@v3
       - run: composer validate --strict
+      - run: composer syntax
       - run: composer test
