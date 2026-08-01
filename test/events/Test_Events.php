@@ -48,9 +48,7 @@ class Test_Events extends \PHPUnit\Framework\TestCase
     {
         $this->_properties = array();
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_report_events()
     {
         $eventNames = array(

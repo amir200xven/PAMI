@@ -32,6 +32,7 @@ namespace {
     $mockTimeCount = false;
     $mockTimeReturn = false;
     $mock_stream_socket_client = false;
+    $mock_stream_socket_timeout = null;
     $mock_stream_set_blocking = false;
     $mockFwrite = false;
     $mockFwriteReturn = false;
@@ -83,6 +84,13 @@ namespace PAMI\Client\Impl {
     }
     function stream_socket_client($remote_socket, &$errno = null, &$errstr = null, $timeout = null, $flags = null, $context = null) {
         global $mock_stream_socket_client;
+        global $mock_stream_socket_timeout;
+        $mock_stream_socket_timeout = $timeout;
+        if ($mock_stream_socket_client === 'fail') {
+            $errno = 110;
+            $errstr = 'Connection timed out';
+            return false;
+        }
         if (isset($mock_stream_socket_client) && $mock_stream_socket_client === true) {
         } else {
             return \stream_socket_client($remote_socket, $errno, $errstr, $timeout, $flags, $context);
@@ -198,9 +206,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->_properties = array();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_client()
     {
         $options = array(
@@ -213,11 +219,12 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         );
 	    $client = new \PAMI\Client\Impl\ClientImpl($options);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_connect_timeout()
     {
+        global $mock_stream_socket_client;
+        global $mock_stream_socket_timeout;
+        $mock_stream_socket_client = 'fail';
         $options = array(
         	'host' => '2.3.4.5',
             'scheme' => 'tcp://',
@@ -227,22 +234,21 @@ class Test_Client extends \PHPUnit\Framework\TestCase
             'connect_timeout' => 3,
         	'read_timeout' => 10
         );
-        $start = time();
+        $exception = null;
         try
         {
 	        $client = new \PAMI\Client\Impl\ClientImpl($options);
 	        $client->open();
         } catch(\Exception $e) {
+            $exception = $e;
         }
-        $length = time() - $start;
-        $this->assertTrue($length >= 2 && $length <= 5);
+        $this->assertSame(3, $mock_stream_socket_timeout);
+        $this->assertInstanceOf(\PAMI\Client\Exception\ClientException::class, $exception);
     }
-    /**
-     * @test
-     * @expectedException \PAMI\Client\Exception\ClientException
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_detect_other_peer()
     {
+        $this->expectException(\PAMI\Client\Exception\ClientException::class);
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         $mock_stream_socket_client = true;
@@ -262,9 +268,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_register_event_listener()
     {
         global $mock_stream_socket_client;
@@ -307,9 +311,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertTrue($event instanceof \PAMI\Message\Event\PeerStatusEvent);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_register_closure_event_listener()
     {
         global $mock_stream_socket_client;
@@ -354,9 +356,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertTrue($resultVariable instanceof \PAMI\Message\Event\PeerStatusEvent);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_register_method_event_listener()
     {
         global $mock_stream_socket_client;
@@ -401,9 +401,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertTrue($event instanceof \PAMI\Message\Event\PeerStatusEvent);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_unregister_event_listener()
     {
         global $mock_stream_socket_client;
@@ -447,9 +445,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
 	    $this->assertNull(SomeListenerClass::$event);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_filter_with_predicate()
     {
         global $mock_stream_socket_client;
@@ -498,9 +494,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertFalse($resultVariable);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_login()
     {
         global $mock_stream_socket_client;
@@ -527,12 +521,10 @@ class Test_Client extends \PHPUnit\Framework\TestCase
 	    $client->open();
 	    $client->close();
     }
-    /**
-     * @test
-     * @expectedException \PAMI\Client\Exception\ClientException
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cannot_send()
     {
+        $this->expectException(\PAMI\Client\Exception\ClientException::class);
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
@@ -557,12 +549,10 @@ class Test_Client extends \PHPUnit\Framework\TestCase
 	    $client->open();
     }
 
-    /**
-     * @test
-     * @expectedException \PAMI\Client\Exception\ClientException
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cannot_login()
     {
+        $this->expectException(\PAMI\Client\Exception\ClientException::class);
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
@@ -586,12 +576,10 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
     }
-    /**
-     * @test
-     * @expectedException \PAMI\Client\Exception\ClientException
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cannot_read()
     {
+        $this->expectException(\PAMI\Client\Exception\ClientException::class);
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
@@ -617,12 +605,10 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         setFgetsMock(array(false), $write);
         $client->send(new \PAMI\Message\Action\LoginAction('asd', 'asd'));
     }
-    /**
-     * @test
-     * @expectedException \PAMI\Client\Exception\ClientException
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cannot_read_by_read_timeout()
     {
+        $this->expectException(\PAMI\Client\Exception\ClientException::class);
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
@@ -650,9 +636,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $client->send(new \PAMI\Message\Action\LoginAction('asd', 'asd'));
         $this->assertEquals(\time() - $start, 10);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_response_with_associated_events()
     {
         global $mock_stream_socket_client;
@@ -709,9 +693,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
 	    );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_serialize_response_and_events()
     {
         global $mock_stream_socket_client;
@@ -762,9 +744,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertEquals($events[0]->getListItems(), 0);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_response_events_without_actionid_and_event()
     {
         global $mock_stream_socket_client;
@@ -818,9 +798,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertEquals($events[1]->getListItems(), 0);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_set_variable()
     {
         $now = time();
@@ -831,9 +809,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertNull($action->getVariable('variable2'));
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_set_variable_with_multiple_values()
     {
         global $mockTime;
@@ -854,9 +830,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         $this->assertEquals($text, $action->serialize());
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_report_unknown_event()
     {
         global $mock_stream_socket_client;
@@ -897,12 +871,12 @@ class Test_Client extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
      * @group channel_vars
      * ChanVariable is sent without a channel name and without a "channel"
      * key.
      * https://github.com/marcelog/PAMI/issues/85
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_channel_variables_without_default_channel_name()
     {
         global $mock_stream_socket_client;
@@ -963,11 +937,11 @@ class Test_Client extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * @test
      * @group channel_vars
      * ChanVariable is sent without a channel name but with a "channel" key.
      * https://github.com/marcelog/PAMI/issues/85
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_channel_variables_with_default_channel_name()
     {
         global $mock_stream_socket_client;
@@ -1033,11 +1007,11 @@ class Test_Client extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
      * @group channel_vars
      * ChanVariable is sent with a channel name and with a "channel" key.
      * https://github.com/marcelog/PAMI/issues/85
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_channel_variables()
     {
         global $mock_stream_socket_client;
