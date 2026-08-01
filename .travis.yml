@@ -2,39 +2,14 @@ language: php
 
 jobs:
   include:
-    - php: 5.4
-      dist: trusty
-    - php: 5.5
-      dist: trusty
-    - php: 5.6
-      dist: xenial
-    - php: 7.0
-      dist: xenial
-    - php: 7.1
-      dist: xenial
-    - php: 7.2
-      dist: xenial
-    - php: 7.3
-      dist: xenial
-    - php: 7.4
-      dist: xenial
-    - php: 8.0
-      dist: focal
+    - php: 8.4
+      dist: noble
     
 before_script:
   - phpenv config-add test/resources/php.ini
 
 install:
-  - composer install || composer install --ignore-platform-reqs
-  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" ]]; then sh test/resources/compatibility-php8.sh; fi
+  - composer install --no-interaction --prefer-dist
 
 script:
-  - vendor/bin/phing travis
-
-after_script:
-  - travis_retry php vendor/bin/coveralls -v
-  - vendor/bin/test-reporter
-
-addons:
-  code_climate:
-    repo_token: 5d81d5163c7f9b810b46451042cb0069d24c91a5887466ba774bf89a56f0187e
+  - composer test

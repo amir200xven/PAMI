@@ -1,34 +1,20 @@
-<phpunit
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
     backupGlobals="true"
-    backupStaticAttributes="false"
     bootstrap="bootstrap.php"
-    cacheTokens="false"
+    cacheDirectory="../../build/phpunit-cache"
     colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    forceCoversAnnotation="false"
-    mapTestClassNameToCoveredClassName="false"
     processIsolation="false"
     stopOnError="true"
     stopOnFailure="true"
     stopOnIncomplete="true"
-    stopOnSkipped="true"
-    stopOnRisky="true"
-    timeoutForSmallTests="1"
-    timeoutForMediumTests="10"
-    timeoutForLargeTests="60"
-    verbose="true">
+    stopOnSkipped="true">
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <source>
+        <include>
             <directory suffix=".php">../../src</directory>
-            <exclude>
-                <directory suffix="Launcher.php">../../src/PAMI/Application</directory>
-                <directory suffix=".php">../../vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+    </source>
     <testsuites>
         <testsuite name="Client">
           <directory suffix=".php">../client</directory>
@@ -40,8 +26,4 @@
             <directory suffix=".php">../events</directory>
         </testsuite>
     </testsuites>
-    <logging>
-        <log type="coverage-html" target="../../build/coverage-html"/>
-        <log type="coverage-clover" target="../../build/logs/clover.xml"/>
-    </logging>
 </phpunit>
