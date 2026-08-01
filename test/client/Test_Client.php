@@ -218,6 +218,7 @@ class Test_Client extends \PHPUnit\Framework\TestCase
         	'read_timeout' => 10
         );
 	    $client = new \PAMI\Client\Impl\ClientImpl($options);
+        $this->assertInstanceOf(\PAMI\Client\Impl\ClientImpl::class, $client);
     }
     #[\PHPUnit\Framework\Attributes\Test]
     public function can_connect_timeout()
