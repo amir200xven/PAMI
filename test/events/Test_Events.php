@@ -88,6 +88,31 @@ class Test_Events extends \PHPUnit\Framework\TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
+    public function hangup_inherits_standard_channel_header_getters(): void
+    {
+        $message = implode("\r\n", array(
+            'Event: Hangup',
+            'ConnectedLineNum: 2192003513',
+            'ConnectedLineName: Test',
+            'Context: from-internal',
+            'Exten: 123',
+            'Linkedid: 123456.1',
+            'Uniqueid: 123456.2',
+            'Channel: SIP/test-0001',
+            '',
+        ));
+
+        $event = \PAMI\Message\Event\Factory\Impl\EventFactoryImpl::createFromRaw($message);
+
+        $this->assertInstanceOf(\PAMI\Message\Event\HangupEvent::class, $event);
+        $this->assertSame('2192003513', $event->getConnectedLineNum());
+        $this->assertSame('Test', $event->getConnectedLineName());
+        $this->assertSame('from-internal', $event->getContext());
+        $this->assertSame('123', $event->getExten());
+        $this->assertSame('123456.1', $event->getLinkedid());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_report_events()
     {
         $eventNames = array(
@@ -363,7 +388,10 @@ class Test_Events extends \PHPUnit\Framework\TestCase
                 'CallerIdName' => 'CallerIdName',
                 'CallerIdNum' => 'CallerIdNum',
                 'Channel' => 'Channel',
+                'ConnectedLineName' => 'ConnectedLineName',
+                'ConnectedLineNum' => 'ConnectedLineNum',
                 'Context' => 'Context',
+                'Exten' => 'Exten',
                 'Linkedid' => 'Linkedid',
                 'Privilege' => 'Privilege',
         		'UniqueID' => 'UniqueID',

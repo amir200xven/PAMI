@@ -54,4 +54,154 @@ abstract class EventMessage extends IncomingMessage
     {
         return $this->getKey('Event');
     }
+
+    /**
+     * Returns key 'Privilege'.
+     *
+     * @return string|null
+     */
+    public function getPrivilege()
+    {
+        return $this->getKey('Privilege');
+    }
+
+    /**
+     * Returns key 'Channel'.
+     *
+     * @return string|null
+     */
+    public function getChannel()
+    {
+        return $this->getKey('Channel');
+    }
+
+    /**
+     * Returns key 'ChannelState'.
+     *
+     * @return string|null
+     */
+    public function getChannelState()
+    {
+        return $this->getKey('ChannelState');
+    }
+
+    /**
+     * Returns key 'ChannelStateDesc'.
+     *
+     * @return string|null
+     */
+    public function getChannelStateDesc()
+    {
+        return $this->getKey('ChannelStateDesc');
+    }
+
+    /**
+     * Returns key 'CallerIDNum'.
+     *
+     * @return string|null
+     */
+    public function getCallerIDNum()
+    {
+        return $this->getKey('CallerIDNum');
+    }
+
+    /**
+     * Returns key 'CallerIDName'.
+     *
+     * @return string|null
+     */
+    public function getCallerIDName()
+    {
+        return $this->getKey('CallerIDName');
+    }
+
+    /**
+     * Returns key 'ConnectedLineNum'.
+     *
+     * @return string|null
+     */
+    public function getConnectedLineNum()
+    {
+        return $this->getKey('ConnectedLineNum');
+    }
+
+    /**
+     * Returns key 'ConnectedLineName'.
+     *
+     * @return string|null
+     */
+    public function getConnectedLineName()
+    {
+        return $this->getKey('ConnectedLineName');
+    }
+
+    /**
+     * Returns key 'Language'.
+     *
+     * @return string|null
+     */
+    public function getLanguage()
+    {
+        return $this->getKey('Language');
+    }
+
+    /**
+     * Returns key 'AccountCode'.
+     *
+     * @return string|null
+     */
+    public function getAccountCode()
+    {
+        return $this->getKey('AccountCode');
+    }
+
+    /**
+     * Returns key 'Context'.
+     *
+     * @return string|null
+     */
+    public function getContext()
+    {
+        return $this->getKey('Context');
+    }
+
+    /**
+     * Returns key 'Exten'.
+     *
+     * @return string|null
+     */
+    public function getExten()
+    {
+        return $this->getKey('Exten');
+    }
+
+    /**
+     * Returns key 'Priority'.
+     *
+     * @return string|null
+     */
+    public function getPriority()
+    {
+        return $this->getKey('Priority');
+    }
+
+    /**
+     * Returns key 'Uniqueid'.
+     *
+     * @return string|null
+     */
+    public function getUniqueID()
+    {
+        return $this->getKey('Uniqueid');
+    }
+
+    /**
+     * Returns key 'Linkedid'.
+     *
+     * @return string|null
+     */
+    public function getLinkedid()
+    {
+        return $this->getKey('Linkedid');
+    }
 }
