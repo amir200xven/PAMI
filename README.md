@@ -7,19 +7,22 @@ for operator consoles, monitoring tools, and real-time telephony applications.
 
 ## About this continuation
 
-This repository continues the original
-[PAMI project](https://marcelog.github.io/PAMI/). Ongoing development is made
-possible with the support of [Hamkaran Cloud Telephony](https://hamkaran.clooud).
+This repository is a maintained, modernized continuation of the original
+[PAMI project](https://marcelog.github.io/PAMI/) by Marcelo Gornstein. The
+original project's authorship and Apache-2.0 license remain fully credited.
+This version is maintained by
+[Hamkaran Cloud Telephony](https://hamkaran.cloud).
 
-Our sincere thanks to Hamkaran Cloud Telephony for supporting the continued
-maintenance and modernization of PAMI.
+The maintained source repository is
+[github.com/amir200xven/PAMI](https://github.com/amir200xven/PAMI).
 
 ## What's new
 
 - **CDR events:** PAMI can now represent Asterisk Call Detail Record events
   through `PAMI\Message\Event\CdrEvent`.
-- **PHP 8.4:** the library, dependencies, test suite, and development tooling
-  have been updated and optimized for PHP 8.4.
+- **PHP 8.4+:** version 3 is designed for PHP 8.4 and newer releases; the
+  library, dependencies, test suite, and development tooling have been
+  modernized accordingly.
 - **Modern PSR-3 support:** applications can use `psr/log` 1.x, 2.x, or 3.x.
 
 ## Requirements
@@ -33,7 +36,7 @@ maintenance and modernization of PAMI.
 Install PAMI with Composer:
 
 ```bash
-composer require marcelog/pami
+composer require hamkaran/pami:^3.0
 ```
 
 ## Quick start

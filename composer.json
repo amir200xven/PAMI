@@ -1,21 +1,40 @@
 {
-  "name": "marcelog/pami",
+  "name": "hamkaran/pami",
   "type": "library",
   "description": "Asterisk Manager Interface (AMI) client for PHP, event driven, object oriented",
-  "keywords": ["asterisk","ami","client","telephony","voip","event","action","manager","monitor"],
-  "homepage": "http://marcelog.github.com/PAMI",
+  "keywords": [
+    "action",
+    "ami",
+    "asterisk",
+    "client",
+    "event",
+    "manager",
+    "monitor",
+    "telephony",
+    "voip"
+  ],
+  "homepage": "https://github.com/amir200xven/PAMI",
   "license": "Apache-2.0",
   "authors": [
     {
       "name": "Marcelo Gornstein",
       "email": "marcelog@gmail.com",
-      "homepage": "http://marcelog.github.com/",
-      "role": "Developer"
+      "homepage": "https://marcelog.github.io/",
+      "role": "Original author"
+    },
+    {
+      "name": "Hamkaran Cloud Telephony",
+      "homepage": "https://hamkaran.cloud",
+      "role": "Maintainer"
     }
   ],
+  "support": {
+    "issues": "https://github.com/amir200xven/PAMI/issues",
+    "source": "https://github.com/amir200xven/PAMI"
+  },
   "autoload": {
     "psr-4": {
-      "PAMI\\": "src/PAMI"
+      "PAMI\\": "src/PAMI/"
     }
   },
   "require": {
