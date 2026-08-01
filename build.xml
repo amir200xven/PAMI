@@ -6,8 +6,8 @@
   description="PAMI Asterisk Manager Interface (AMI) client for PHP">
 
   <target name="install">
-    <exec command="./composer.phar install" checkreturn="true" passthru="true"/>
-    <exec command="./composer.phar update" checkreturn="true" passthru="true"/>
+    <exec command="composer install" checkreturn="true" passthru="true"/>
+    <exec command="composer update" checkreturn="true" passthru="true"/>
   </target>
 
   <target name="clean">

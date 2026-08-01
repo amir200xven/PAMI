@@ -57,7 +57,6 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         global $mock_stream_socket_client;
         global $mock_stream_set_blocking;
         global $mockTime;
-        global $standardAMIStart;
         $mock_stream_socket_client = true;
         $mock_stream_set_blocking = true;
         $options = array(
@@ -72,7 +71,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $writeLogin = array(
         	"action: Login\r\nactionid: 1432.123\r\nusername: asd\r\nsecret: asd\r\n"
         );
-        setFgetsMock($standardAMIStart, $writeLogin);
+        setFgetsMock(standardAMIStart(), $writeLogin);
         $client = new \PAMI\Client\Impl\ClientImpl($options);
 	    $client->open();
 	    if ($action instanceof \PAMI\Message\Action\DBGetAction) {
@@ -97,9 +96,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $this->assertTrue($result instanceof \PAMI\Message\Response\ResponseMessage);
 	    return $client;
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_absolute_timeout()
     {
         $write = array(
@@ -108,9 +105,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\AbsoluteTimeoutAction('SIP/asd', 10);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_login()
     {
         $write = array(implode("\r\n", array(
@@ -123,9 +118,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\LoginAction('foo', 'bar');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_login_with_events()
     {
         $write = array(implode("\r\n", array(
@@ -139,9 +132,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\LoginAction('foo', 'bar', 'all');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_agent_logoff()
     {
         $write = array(implode("\r\n", array(
@@ -154,9 +145,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\AgentLogoffAction('asd', true);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_agents()
     {
         $write = array(implode("\r\n", array(
@@ -167,9 +156,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\AgentsAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_atxfer()
     {
         $write = array(implode("\r\n", array(
@@ -184,9 +171,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\AttendedTransferAction('channel', 'exten', 'context', 'priority');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_blindTransfer()
     {
         $write = array(implode("\r\n", array(
@@ -200,9 +185,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\BlindTransferAction('channel', 'exten', 'context');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_bridge()
     {
         $write = array(implode("\r\n", array(
@@ -216,9 +199,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\BridgeAction('channel1', 'channel2', true);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_bridge_info()
     {
         $bridge_uniqueid = '57cb3a7e-0fa3-4e28-924f-d7728b0d7a9a';
@@ -232,9 +213,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\BridgeInfoAction($bridge_uniqueid);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_challenge()
     {
         $write = array(implode("\r\n", array(
@@ -246,9 +225,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\ChallengeAction('test');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_change_monitor()
     {
         $write = array(implode("\r\n", array(
@@ -261,9 +238,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ChangeMonitorAction('channel', 'file', true);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_command()
     {
         $write = array(implode("\r\n", array(
@@ -275,9 +250,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\CommandAction('command');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_confbridge_list()
     {
         $conference = 'conf-59dba3997444e5';
@@ -290,9 +263,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\ConfbridgeListAction($conference);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_confbridge_mute()
     {
         $write = array(implode("\r\n", array(
@@ -305,9 +276,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\ConfbridgeMuteAction('channel', 'conference');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_confbridge_unmute()
     {
         $write = array(implode("\r\n", array(
@@ -320,9 +289,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\ConfbridgeUnmuteAction('channel', 'conference');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_core_settings()
     {
         $write = array(implode("\r\n", array(
@@ -333,9 +300,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\CoreSettingsAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_show_devices()
     {
         $write = array(implode("\r\n", array(
@@ -346,9 +311,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleShowDevicesAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_reload()
     {
         $write = array(implode("\r\n", array(
@@ -360,9 +323,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleReloadAction('when');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_restart()
     {
         $write = array(implode("\r\n", array(
@@ -375,9 +336,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleRestartAction('when', 'device');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_reset()
     {
         $write = array(implode("\r\n", array(
@@ -389,9 +348,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleResetAction('device');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_send_pdu()
     {
         $write = array(implode("\r\n", array(
@@ -404,9 +361,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleSendPDUAction('device', 'pdu');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_send_ussd()
     {
         $write = array(implode("\r\n", array(
@@ -419,9 +374,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleSendUSSDAction('device', 'ussd');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_stop()
     {
         $write = array(implode("\r\n", array(
@@ -434,9 +387,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleStopAction('when', 'device');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_start()
     {
         $write = array(implode("\r\n", array(
@@ -448,9 +399,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleStartAction('device');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dongle_sms_send()
     {
         $write = array(implode("\r\n", array(
@@ -464,9 +413,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DongleSendSMSAction('device', 'number', 'message');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_core_status()
     {
         $write = array(implode("\r\n", array(
@@ -477,9 +424,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\CoreStatusAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_create_config()
     {
         $write = array(implode("\r\n", array(
@@ -491,9 +436,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\CreateConfigAction('file.conf');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dahdi_dndoff()
     {
         $write = array(implode("\r\n", array(
@@ -505,9 +448,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DAHDIDNDOffAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dahdi_dndon()
     {
         $write = array(implode("\r\n", array(
@@ -519,9 +460,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DAHDIDNDOnAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dahdi_dialoffhook()
     {
         $write = array(implode("\r\n", array(
@@ -534,9 +473,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DAHDIDialOffHookAction('channel', 'number');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dahdi_hangup()
     {
         $write = array(implode("\r\n", array(
@@ -548,9 +485,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DAHDIHangupAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dahdi_restart()
     {
         $write = array(implode("\r\n", array(
@@ -561,9 +496,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DAHDIRestartAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dahdi_show_channels()
     {
         $write = array(implode("\r\n", array(
@@ -574,9 +507,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DAHDIShowChannelsAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dahdi_transfer()
     {
         $write = array(implode("\r\n", array(
@@ -588,9 +519,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\DAHDITransferAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dbdel()
     {
         $write = array(implode("\r\n", array(
@@ -603,9 +532,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DBDelAction('family', 'key');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dbdeltree()
     {
         $write = array(implode("\r\n", array(
@@ -618,9 +545,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DBDelTreeAction('family', 'key');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dbget()
     {
         $write = array(implode("\r\n", array(
@@ -633,9 +558,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DBGetAction('family', 'key');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_dbput()
     {
         $write = array(implode("\r\n", array(
@@ -649,9 +572,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\DBPutAction('family', 'key', 'val');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_events_off()
     {
         $write = array(implode("\r\n", array(
@@ -663,9 +584,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\EventsAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_events()
     {
         $write = array(implode("\r\n", array(
@@ -677,9 +596,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\EventsAction(array('a', 'b', 'c'));
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_extension_state()
     {
         $write = array(implode("\r\n", array(
@@ -692,9 +609,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ExtensionStateAction('exten', 'context');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_config()
     {
         $write = array(implode("\r\n", array(
@@ -707,9 +622,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\GetConfigAction('file.conf', 'category');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_configjson()
     {
         $write = array(implode("\r\n", array(
@@ -721,9 +634,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\GetConfigJSONAction('file.conf', 'category');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_get_var()
     {
         $write = array(implode("\r\n", array(
@@ -736,9 +647,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\GetVarAction('var', 'channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_hangup()
     {
         $write = array(implode("\r\n", array(
@@ -750,9 +659,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\HangupAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_hangup_with_cause()
     {
         $write = array(implode("\r\n", array(
@@ -765,9 +672,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action = new \PAMI\Message\Action\HangupAction('channel', 5);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_jabbersend()
     {
         $write = array(implode("\r\n", array(
@@ -782,9 +687,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\JabberSendAction('jabber', 'jid', 'message');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_list_categories()
     {
         $write = array(implode("\r\n", array(
@@ -796,9 +699,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ListCategoriesAction('file.conf');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_list_commands()
     {
         $write = array(implode("\r\n", array(
@@ -809,9 +710,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ListCommandsAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_local_optimize_away()
     {
         $write = array(implode("\r\n", array(
@@ -823,9 +722,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\LocalOptimizeAwayAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_mailbox_count()
     {
         $write = array(implode("\r\n", array(
@@ -837,9 +734,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\MailboxCountAction('mailbox');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_mailbox_status()
     {
         $write = array(implode("\r\n", array(
@@ -852,9 +747,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $client = $this->_start($write, $action);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_meetme_list()
     {
         $write = array(implode("\r\n", array(
@@ -866,9 +759,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\MeetmeListAction('conference');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_meetme_mute()
     {
         $write = array(implode("\r\n", array(
@@ -881,9 +772,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\MeetmeMuteAction('meetme', 'usernum');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_meetme_unmute()
     {
         $write = array(implode("\r\n", array(
@@ -896,9 +785,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\MeetmeUnmuteAction('meetme', 'usernum');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_mix_monitor()
     {
         $write = array(implode("\r\n", array(
@@ -914,9 +801,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action->setOptions(array('o', 'p', 't', 'i', 'o', 'n', 's'));
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_module_check()
     {
         $write = array(implode("\r\n", array(
@@ -929,9 +814,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $client = $this->_start($write, $action);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_module_load()
     {
         $write = array(implode("\r\n", array(
@@ -944,9 +827,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ModuleLoadAction('module');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_module_reload()
     {
         $write = array(implode("\r\n", array(
@@ -959,9 +840,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ModuleReloadAction('module');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_module_unload()
     {
         $write = array(implode("\r\n", array(
@@ -974,9 +853,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ModuleUnloadAction('module');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_monitor()
     {
         $write = array(implode("\r\n", array(
@@ -991,9 +868,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\MonitorAction('channel', 'file');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_voicemail_users_list()
     {
         $write = array(implode("\r\n", array(
@@ -1004,9 +879,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\VoicemailUsersListAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_pause_monitor()
     {
         $write = array(implode("\r\n", array(
@@ -1018,9 +891,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\PauseMonitorAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_unpause_monitor()
     {
         $write = array(implode("\r\n", array(
@@ -1032,9 +903,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\UnpauseMonitorAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_stop_monitor()
     {
         $write = array(implode("\r\n", array(
@@ -1046,9 +915,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\StopMonitorAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_stop_mix_monitor()
     {
         $write = array(implode("\r\n", array(
@@ -1062,9 +929,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $action->setMixMonitorId('mix_monitor');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_status()
     {
         $write = array(implode("\r\n", array(
@@ -1076,9 +941,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\StatusAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_show_dialplan()
     {
         $write = array(implode("\r\n", array(
@@ -1091,9 +954,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ShowDialPlanAction('context', 'extension');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_set_var()
     {
         $write = array(implode("\r\n", array(
@@ -1107,9 +968,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\SetVarAction('variable', 'value', 'channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_reload()
     {
         $write = array(implode("\r\n", array(
@@ -1121,9 +980,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ReloadAction('module');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_ping()
     {
         $write = array(implode("\r\n", array(
@@ -1134,9 +991,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\PingAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_send_text()
     {
         $write = array(implode("\r\n", array(
@@ -1149,9 +1004,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\SendTextAction('channel', 'message');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_sip_show_registry()
     {
         $write = array(implode("\r\n", array(
@@ -1162,9 +1015,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\SIPShowRegistryAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_sip_peers()
     {
         $write = array(implode("\r\n", array(
@@ -1175,9 +1026,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\SIPPeersAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_sip_notify()
     {
         $write = array(implode("\r\n", array(
@@ -1189,9 +1038,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\SIPNotifyAction('channel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_sip_show_peer()
     {
         $write = array(implode("\r\n", array(
@@ -1203,9 +1050,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\SIPShowPeerAction('peer');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_sip_qualify_peer()
     {
         $write = array(implode("\r\n", array(
@@ -1217,9 +1062,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\SIPQualifyPeerAction('peer');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_vgsm_sms_tx()
     {
         $write = array(implode("\r\n", array(
@@ -1250,9 +1093,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action->setTo('to');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_parked_calls()
     {
         $write = array(implode("\r\n", array(
@@ -1263,9 +1104,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ParkedCallsAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queues()
     {
         $write = array(implode("\r\n", array(
@@ -1276,9 +1115,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueuesAction;
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_redirect()
     {
         $write = array(implode("\r\n", array(
@@ -1301,9 +1138,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action->setExtraChannel('extrachannel');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_unpause()
     {
         $write = array(implode("\r\n", array(
@@ -1318,9 +1153,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueueUnpauseAction('interface', 'queue', 'reason');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_pause()
     {
         $write = array(implode("\r\n", array(
@@ -1335,9 +1168,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueuePauseAction('interface', 'queue', 'reason');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_summary()
     {
         $write = array(implode("\r\n", array(
@@ -1349,9 +1180,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueueSummaryAction('queue');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_status()
     {
         $write = array(implode("\r\n", array(
@@ -1364,9 +1193,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueueStatusAction('queue', 'member');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_reset()
     {
         $write = array(implode("\r\n", array(
@@ -1378,9 +1205,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueueResetAction('queue');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_rule()
     {
         $write = array(implode("\r\n", array(
@@ -1392,9 +1217,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueueRuleAction('rule');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_remove()
     {
         $write = array(implode("\r\n", array(
@@ -1407,9 +1230,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueueRemoveAction('queue', 'interface');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_reload()
     {
         $write = array(implode("\r\n", array(
@@ -1424,9 +1245,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueueReloadAction('queue', true, true, true);
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_penalty()
     {
         $write = array(implode("\r\n", array(
@@ -1440,9 +1259,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\QueuePenaltyAction('interface', 'penalty', 'queue');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_log()
     {
         $write = array(implode("\r\n", array(
@@ -1461,9 +1278,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action->setUniqueId('uniqueid');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_queue_add()
     {
         $write = array(implode("\r\n", array(
@@ -1484,9 +1299,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action->setStateInterface('state');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_play_dtmf()
     {
         $write = array(implode("\r\n", array(
@@ -1499,9 +1312,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\PlayDTMFAction('channel', '1');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_park()
     {
         $write = array(implode("\r\n", array(
@@ -1516,9 +1327,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\ParkAction('channel1', 'channel2', 'timeout', 'lot');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_agi()
     {
         $write = array(implode("\r\n", array(
@@ -1532,9 +1341,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
 	    $action = new \PAMI\Message\Action\AGIAction('channel1', 'an agi command', 'blah');
         $client = $this->_start($write, $action);
     }
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_originate()
     {
         $write = array(implode("\r\n", array(
@@ -1569,9 +1376,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $client = $this->_start($write, $action);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_logoff()
     {
         $write = array(implode("\r\n", array(
@@ -1583,9 +1388,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $client = $this->_start($write, $action);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_user_event()
     {
         $write = array(implode("\r\n", array(
@@ -1600,9 +1403,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $client = $this->_start($write, $action);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_wait_event()
     {
         $write = array(implode("\r\n", array(
@@ -1615,9 +1416,7 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $client = $this->_start($write, $action);
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_set_actionid()
     {
         $action = new \PAMI\Message\Action\PingAction();
@@ -1627,31 +1426,25 @@ class Test_Actions extends \PHPUnit\Framework\TestCase
         $this->assertSame($actionID, $action->getActionID());
     }
 
-    /**
-     * @test
-     * @expectedException \PAMI\Exception\PAMIException
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cannot_set_actionid_longer_than_69_characters()
     {
+        $this->expectException(\PAMI\Exception\PAMIException::class);
         $action = new \PAMI\Message\Action\PingAction();
         // A 70-character long ActionID
         $action->setActionID('1234567890123456789012345678901234567890123456789012345678901234567890');
     }
 
-    /**
-     * @test
-     * @expectedException \PAMI\Exception\PAMIException
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cannot_set_empty_actionid()
     {
+        $this->expectException(\PAMI\Exception\PAMIException::class);
         $action = new \PAMI\Message\Action\PingAction();
         // An empty ActionID
         $action->setActionID('');
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function can_update_config()
     {
         $number = 9876;
